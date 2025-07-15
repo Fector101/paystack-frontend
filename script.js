@@ -3,7 +3,7 @@ async function pay() {
   if (!email) return alert('Enter a valid email');
 
   // 1. Call your backend to initialize the payment
-  const res = await fetch('https://your-backend.onrender.com/api/initialize', {
+  const res = await fetch('https://paystack-backend-nmo3.onrender.com/api/initialize', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
