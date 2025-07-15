@@ -17,7 +17,7 @@ async function pay() {
 
   // 2. Use the access_code to open Paystack popup
   const handler = PaystackPop.setup({
-    key: 'pk_test_xxxxxxxxxxxxx', // ✅ Your public key
+    key: 'pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3', // ✅ Your public key
     access_code: access_code,
     callback: async function (response) {
       console.log('Payment reference:', response.reference);
