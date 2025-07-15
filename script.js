@@ -39,3 +39,5 @@ async function pay() {
 
   handler.openIframe();
 }
+
+document.querySelector("button").addEventListener('click',pay)
