@@ -1,4 +1,6 @@
 async function pay() {
+  
+document.querySelector("body").style.background="red"
   const email = document.getElementById('email').value;
   if (!email) return alert('Enter a valid email');
 
