@@ -1,3 +1,5 @@
+const backend="https://paystack-backend-gold.vercel.app"
+
 function logStatus(message, color = "black") {
   const log = document.getElementById("status-log");
   log.textContent = message;
@@ -30,7 +32,7 @@ async function pay() {
     try {
         // Step 2: Fetch sent → turn blue
 logStatus("📡 Initializing payment...", "deepskyblue");
-        const res = await fetch("https://paystack-backend-nmo3.onrender.com/api/initialize", {
+        const res = await fetch(backend+"/api/initialize", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: email, amount: 2000 })
@@ -60,7 +62,7 @@ amount:amount *100,
                 // Step 4: Verifying → purple
               logStatus("🔄 Verifying transaction...", "mediumpurple");
                 console.log(response)
-                fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`)
+                fetch(`{backend}/api/verify/${response.reference}`)
                     .then(res => res.json())
                     .then(verifyData => {
                         if (verifyData.data.status === "success") {
