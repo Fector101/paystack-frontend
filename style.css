@@ -1,0 +1,23 @@
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  padding: 10px;
+  background-color: midnightblue;
+  text-align: center;
+}
+input{
+    height: 30px;
+  width:200px;
+  
+  margin: 20px;
+}
+button{
+  height: 50px;
+  width:100px;
+  display: block;
+  margin: 10px auto;
+}
