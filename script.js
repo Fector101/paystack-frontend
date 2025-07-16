@@ -39,21 +39,29 @@ async function pay() {
     const handler = PaystackPop.setup({
       key: "pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3", // ✅ Replace with your public key
       access_code: data.data.access_code,
-      callback: function(response) {
-        // Step 4: Verifying → purple
-        document.body.style.background = "mediumpurple";
-        
-        const verifyRes = await fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`);
-        const verifyData = await verifyRes.json();
-        
-        if (verifyData.data.status === "success") {
-          document.body.style.background = "lightgreen"; // ✅ success
-          alert("✅ Payment successful!");
-        } else {
-          document.body.style.background = "firebrick"; // ❌ verification failed
-          alert("❌ Payment verification failed.");
-        }
-      },
+      callback: function (response) {
+  // Step 4: Verifying → purple
+  document.body.style.background = "mediumpurple";
+
+  fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`)
+    .then(res => res.json())
+    .then(verifyData => {
+      if (verifyData.data.status === "success") {
+        document.body.style.background = "lightgreen"; // ✅ success
+        alert("✅ Payment successful!");
+      } else {
+        document.body.style.background = "firebrick"; // ❌ verification failed
+        alert("❌ Payment verification failed.");
+      }
+    })
+    .catch(error => {
+      console.error("Verification error:", error);
+      document.body.style.background = "black";
+      alert("An error occurred during verification.");
+    });
+}
+
+      ,
       onClose: function() {
         document.body.style.background = "gray"; // user closed popup
         alert("❌ Transaction was closed");
