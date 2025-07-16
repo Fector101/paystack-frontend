@@ -36,7 +36,7 @@ async function pay() {
             document.body.style.background = "crimson";
             return;
         }
-const amount=2000
+const amount=500000
         //-----------------------------------------
 
         // Step 3: Access code received → green
