@@ -16,7 +16,7 @@ document.getElementById("pay-btn").addEventListener("click", pay);
 
 async function pay() {
     // Step 1: Clicked → turn red
-    document.body.style.background = "tomato";
+  logStatus("🟢 Button clicked", "pink");
 
     const email = document.getElementById("email").value;
     const emailPattern = /^[^@]+@[^@]+\.[^@]+$/;
@@ -30,8 +30,7 @@ async function pay() {
 
     try {
         // Step 2: Fetch sent → turn blue
-        document.body.style.background = "deepskyblue";
-
+logStatus("📡 Initializing payment...", "deepskyblue");
         const res = await fetch("https://paystack-backend-nmo3.onrender.com/api/initialize", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -50,8 +49,7 @@ const amount=500000
         //-----------------------------------------
 
         // Step 3: Access code received → green
-        document.body.style.background = "limegreen";
-
+logStatus("✅ Payment popup ready", "limegreen");
         const handler = PaystackPop.setup({
             key: "pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3", // ✅ Replace with your public key
             access_code: data.data.access_code,
@@ -61,29 +59,29 @@ amount:amount *100,
 
             callback: function (response) {
                 // Step 4: Verifying → purple
-                document.body.style.background = "mediumpurple";
+              logStatus("🔄 Verifying transaction...", "mediumpurple");
                 console.log(response)
                 fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`)
                     .then(res => res.json())
                     .then(verifyData => {
                         if (verifyData.data.status === "success") {
-                            document.body.style.background = "lightgreen"; // ✅ success
-                            alert("✅ Payment successful!");
+                            logStatus("✅ Payment successful!", "lightgreen");
+                          alert("✅ Payment successful!");
                         } else {
-                            document.body.style.background = "firebrick"; // ❌ verification failed
-                            alert("❌ Payment verification failed.");
+                            logStatus("❌ Payment verification failed.", "firebrick");
+                          alert("❌ Payment verification failed.");
                         }
                     })
                     .catch(error => {
                         console.error("Verification error:", error);
-                        document.body.style.background = "black";
+                      logStatus("⚠️ Unexpected error occurred", "black");
                         alert("An error occurred during verification.");
                     });
             }
 
             ,
             onClose: function () {
-                document.body.style.background = "gray"; // user closed popup
+              logStatus("❌ User closed the payment window", "gray");
                 alert("❌ Transaction was closed");
             }
         });
@@ -94,8 +92,9 @@ amount:amount *100,
     } catch (err) {
         document.body.style.background = "black"; // error indicator
         console.error("Unexpected error:", err);
-
+      const msg=(err.message || JSON.stringify(err))
+logStatus(msg, "black");
         // 👇 New: Try to show error in an alert as well
-        alert("An error occurred:\n" + (err.message || JSON.stringify(err)));
+        alert("An error occurred:\n" + msg);
     }
 }
