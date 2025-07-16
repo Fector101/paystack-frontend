@@ -65,10 +65,10 @@ amount:amount *100,
                     .then(verifyData => {
                         if (verifyData.data.status === "success") {
                             logStatus("✅ Payment successful!", "lightgreen");
-                          alert("✅ Payment successful!");
+                          
                         } else {
                             logStatus("❌ Payment verification failed.", "firebrick");
-                          alert("❌ Payment verification failed.");
+                          
                         }
                     })
                     .catch(error => {
@@ -81,7 +81,7 @@ amount:amount *100,
             ,
             onClose: function () {
               logStatus("❌ User closed the payment window", "gray");
-                alert("❌ Transaction was closed");
+                
             }
         });
 
