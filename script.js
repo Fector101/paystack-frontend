@@ -1,47 +1,72 @@
+// Set initial color
+document.body.style.background = "lightyellow";
 
-  document.querySelector("body").style.background = "yellow"
+// When "Pay" is clicked
+document.getElementById("pay-btn").addEventListener("click", pay);
+
 async function pay() {
+  // Step 1: Clicked → turn red
+  document.body.style.background = "tomato";
   
-  document.querySelector("body").style.background = "red"
-  const email = document.getElementById('email').value;
-  if (!email) return alert('Enter a valid email');
+  const email = document.getElementById("email").value;
+  if (!email) {
+    alert("Enter a valid email");
+    document.body.style.background = "orange"; // warning color
+    return;
+  }
   
-  // 1. Call your backend to initialize the payment
-  const res = await fetch('https://paystack-backend-nmo3.onrender.com/api/initialize', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: email,
-      amount: 2000 // Naira (will be converted to kobo in backend)
-    })
-  });
-  
-  const data = await res.json();
-  const access_code = data.data.access_code;
-  
-  // 2. Use the access_code to open Paystack popup
-  const handler = PaystackPop.setup({
-    key: 'pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3', // ✅ Your public key
-    access_code: access_code,
-    callback: async function(response) {
-      console.log('Payment reference:', response.reference);
-      
-      // 3. Call backend to verify the transaction
-      const verifyRes = await fetch(`https://your-backend.onrender.com/api/verify/${response.reference}`);
-      const verifyData = await verifyRes.json();
-      
-      if (verifyData.data.status === 'success') {
-        alert('✅ Payment successful!');
-      } else {
-        alert('❌ Payment failed.');
-      }
-    },
-    onClose: function() {
-      alert('❌ Transaction closed by user');
+  try {
+    // Step 2: Fetch sent → turn blue
+    document.body.style.background = "deepskyblue";
+    
+    const res = await fetch("https://paystack-backend-nmo3.onrender.com/api/initialize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, amount: 2000 })
+    });
+    
+    const data = await res.json();
+    
+    if (!data.status || !data.data.access_code) {
+      alert("❌ Failed to initialize payment");
+      document.body.style.background = "crimson";
+      return;
     }
-  });
-  
-  handler.openIframe();
-}
+    
+    // Step 3: Access code received → green
+    document.body.style.background = "limegreen";
+    
+    const handler = PaystackPop.setup({
+      key: "pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3", // ✅ Replace with your public key
+      access_code: data.data.access_code,
+      callback: async function(response) {
+        // Step 4: Verifying → purple
+        document.body.style.background = "mediumpurple";
+        
+        const verifyRes = await fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`);
+        const verifyData = await verifyRes.json();
+        
+        if (verifyData.data.status === "success") {
+          document.body.style.background = "lightgreen"; // ✅ success
+          alert("✅ Payment successful!");
+        } else {
+          document.body.style.background = "firebrick"; // ❌ verification failed
+          alert("❌ Payment verification failed.");
+        }
+      },
+      onClose: function() {
+        document.body.style.background = "gray"; // user closed popup
+        alert("❌ Transaction was closed");
+      }
+    });
+    
+    handler.openIframe();
+ 
 
-document.querySelector("button").addEventListener('click', pay)
+} catch (err) {
+  document.body.style.background = "black"; // error indicator
+  console.error("Unexpected error:", err);
+
+  // 👇 New: Try to show error in an alert as well
+  alert("An error occurred:\n" + (err.message || JSON.stringify(err)));
+}}
