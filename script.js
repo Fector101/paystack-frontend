@@ -9,11 +9,14 @@ async function pay() {
   document.body.style.background = "tomato";
   
   const email = document.getElementById("email").value;
-  if (!email) {
-    alert("Enter a valid email");
-    document.body.style.background = "orange"; // warning color
-    return;
-  }
+const emailPattern = /^[^@]+@[^@]+\.[^@]+$/;
+
+if (!emailPattern.test(email)) {
+  alert("Enter a valid email address (e.g. you@example.com)");
+  document.body.style.background = "orange";
+  return;
+}
+
   
   try {
     // Step 2: Fetch sent → turn blue
