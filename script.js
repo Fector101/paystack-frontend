@@ -44,6 +44,7 @@ async function pay() {
         const handler = PaystackPop.setup({
             key: "pk_test_0a738015897d0b207670c83da9c5b68ec1a488e3", // ✅ Replace with your public key
             access_code: data.data.access_code,
+email: email,
             callback: function (response) {
                 // Step 4: Verifying → purple
                 document.body.style.background = "mediumpurple";
