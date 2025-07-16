@@ -26,7 +26,7 @@ async function pay() {
     });
     
     const data = await res.json();
-    conso
+      console.log(data)
     
     if (!data.status || !data.data.access_code) {
       alert("❌ Failed to initialize payment");
