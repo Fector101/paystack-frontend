@@ -26,6 +26,7 @@ async function pay() {
     });
     
     const data = await res.json();
+    conso
     
     if (!data.status || !data.data.access_code) {
       alert("❌ Failed to initialize payment");
@@ -42,7 +43,7 @@ async function pay() {
       callback: function (response) {
   // Step 4: Verifying → purple
   document.body.style.background = "mediumpurple";
-
+  console.log(response)
   fetch(`https://paystack-backend-nmo3.onrender.com/api/verify/${response.reference}`)
     .then(res => res.json())
     .then(verifyData => {
