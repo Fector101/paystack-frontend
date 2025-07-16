@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pay with Paystack</title>
-  
+
+  <!-- Paystack popup script -->
   <script src="https://js.paystack.co/v1/inline.js"></script>
+
+  <!-- Your script -->
   <script defer src="script.js"></script>
-  <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+
+  <!-- Optional styling -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Pay NGN 2,000</h2>
-  <input type="email" id="email" placeholder="Enter email" required />
-  <button>Pay</button>
-
+  <div class="container">
+    <h2>Pay NGN 2,000</h2>
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <button id="pay-btn">Pay</button>
+  </div>
 </body>
 </html>
