@@ -36,6 +36,7 @@ async function pay() {
             document.body.style.background = "crimson";
             return;
         }
+const amount=2000
         //-----------------------------------------
 
         // Step 3: Access code received → green
@@ -46,7 +47,7 @@ async function pay() {
             access_code: data.data.access_code,
 email: email,
 currency: "NGN",
-amount: amount*100,
+amount:amount *100,
 
             callback: function (response) {
                 // Step 4: Verifying → purple
