@@ -1,5 +1,4 @@
 function logStatus(message, color = "black") {
-  document.body.style.background = color;
   const log = document.getElementById("status-log");
   log.textContent = message;
   log.style.color = color === "black" ? "white" : color;
